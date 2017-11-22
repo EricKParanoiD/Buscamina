@@ -2,9 +2,12 @@ package controladores;
 
 import controller.JugadorJpaController;
 import entidades.Jugador;
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import logica.Encriptar;
 
@@ -38,7 +42,7 @@ public class FXMLInicioSesionController implements Initializable {
   List<Jugador> jugadores = jugadorjpa.findJugadorEntities(); //Lista para guardar entidades de la base de datos
   Encriptar encript = new Encriptar(); //Variable para encriptacion
   Alerta alerta = new Alerta(); //Variable para la creacion de alertas
-
+  private int id;
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     /**
@@ -93,6 +97,7 @@ public class FXMLInicioSesionController implements Initializable {
         String contrasena = jugadores.get(i).getContrasena(); //variable auxiliar para la contraseña
         String contrasenaUsuario = encript.convertirSHA256(psfContrasena.getText()); //contraseña introducida hasheada
         if (contrasena.equals(contrasenaUsuario)) {
+          setId(jugadores.get(i).getIdJugador()); //Id del jugador guardado para enviarlo posteriormente
           return 0; //0 para nombre y contraseña correctas
         } else {
           return 1; //1 para contraseña incorrecta
@@ -107,37 +112,41 @@ public class FXMLInicioSesionController implements Initializable {
    * Metodo para la invocacion del menu
    */
   private void menu() {
-    Stage stage = (Stage) btnIniciar.getScene().getWindow();
-    stage.close();
-
     try {
-      /**
-       * FXMLLoader loader= new FXMLLoader(); //agregamos el openStream (no se para que) AnchorPane
-       * root =(AnchorPane)loader.load(getClass().getResource("Planillacaja.fxml").openStream());
-       */
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/pantallas/FXMLMenu.fxml"));
-      Parent root1 = (Parent) fxmlLoader.load();
-      stage.setScene(new Scene(root1));
-      stage.show();
-    } catch (Exception e) {
+      Stage planillaStage = (Stage) btnCrear.getScene().getWindow();  //Se obtiene el stage del boton crear
+      FXMLLoader loader = new FXMLLoader(); //instancia de loader
+      AnchorPane root = (AnchorPane) loader.load(getClass().getResource("/pantallas/FXMLMenu.fxml").openStream()); //Se obtiene el recurso FXML y se abre su stream
+      FXMLMenuController cMenu = (FXMLMenuController) loader.getController(); //Se obtiene el controlador con el loader y se castea
+      //Se usa el setId para pasar el parametro
+      cMenu.setId(id);
+      planillaStage.setScene(new Scene(root)); //Se pone la escena en el stage
+      planillaStage.show(); //Se muestra
+    } catch (IOException ex) {
+      Logger.getLogger(FXMLInicioSesionController.class.getName()).log(Level.SEVERE, null, ex);
     }
+
   }
 
   /**
    * Metodo para ir a la escena de crear cuenta
    */
   public void crearCuenta() {
-    Stage stage = (Stage) btnIniciar.getScene().getWindow();
-    stage.close();
-
     try {
+      Stage stage = (Stage) btnIniciar.getScene().getWindow();
+      stage.close();
+
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/pantallas/FXMLCrearCuenta.fxml"));
       Parent root1 = (Parent) fxmlLoader.load();
       stage.setScene(new Scene(root1));
       stage.show();
-    } catch (Exception e) {
+    } catch (IOException ex) {
+      Logger.getLogger(FXMLInicioSesionController.class.getName()).log(Level.SEVERE, null, ex);
     }
 
+  }
+
+  public void setId(int id) {
+    this.id = id;
   }
 
 }

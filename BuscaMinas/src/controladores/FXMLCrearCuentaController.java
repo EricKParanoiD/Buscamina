@@ -28,6 +28,7 @@ import controller.PartidasganadasJpaController;
 import controller.exceptions.PreexistingEntityException;
 import entidades.Configuraciones;
 import entidades.Partidasganadas;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -102,12 +103,12 @@ public class FXMLCrearCuentaController implements Initializable {
  * Metodo hacia el inicio de sesion
  */
   public void inicioSesion() {
-    //Recupera el stage de el boton btnRegistrarse
-    Stage stage = (Stage) btnRegistrarse.getScene().getWindow();
-    //Cierra el stage
-    stage.close();
-
     try {
+      //Recupera el stage de el boton btnRegistrarse
+      Stage stage = (Stage) btnRegistrarse.getScene().getWindow();
+      //Cierra el stage
+      stage.close();
+      
       //Carga la nueva interfaz
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/pantallas/FXMLInicioSesion.fxml"));
       //Lo carga en la escena
@@ -115,8 +116,10 @@ public class FXMLCrearCuentaController implements Initializable {
       //Pone la escena en el stage y lo muestra
       stage.setScene(new Scene(root1));
       stage.show();
-    } catch (Exception e) {
+    } catch (IOException ex) {
+      Logger.getLogger(FXMLCrearCuentaController.class.getName()).log(Level.SEVERE, null, ex);
     }
+    
 
   }
 /**
