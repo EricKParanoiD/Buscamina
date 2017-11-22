@@ -29,7 +29,7 @@ public class TestTablero {
    * Prueba del metodo inicializar
    */
   @Test
-  public void TestInicializar(){
+  public void testInicializar(){
     tab.setTamano(8); //Se le pone el tamaño
     tab.setArrCasilla(new int [10][10]);  // Se inicializa el arreglo
     arrPrueba=tab.getArrCasilla();  //Se vacia el arreglo para usar los numeros mas facilmente

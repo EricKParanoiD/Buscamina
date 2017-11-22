@@ -42,7 +42,13 @@ alert.setContentText(mensaje);  //Se le pone el mensaje
 
 alert.showAndWait();  //Se muestra y espera por respuesta
 }
-
+/**
+ * Alerta con confirmacion
+ * @param titulo el titulo de la alerta
+ * @param cabeza cabeza de la alerta
+ * @param mensaje mensaje de alerta
+ * @return 
+ */
 public boolean alertaConfirmacion(String titulo, String cabeza, String mensaje){
   Alert alert = new Alert(AlertType.CONFIRMATION);
 alert.setTitle(titulo); //Se le pone el titulo

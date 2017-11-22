@@ -31,7 +31,9 @@ public final class Tablero {
     sortear();  //Sorteo de minas
     contarAlrededor();  //conteo alrededor de minas
   }
-
+  /**
+   * Constructor vacio
+   */
   public Tablero() {
   }
 
@@ -106,7 +108,12 @@ public final class Tablero {
       System.out.println("");
     }
   }
-
+  /**
+   * Metodo que pone en el array dado la lista de elementos vacios alrededor
+   * @param arrCoordenadas  arreglo al que ponerle las coordenadas
+   * @param actualX coordenada x de inicio
+   * @param actualY coordenada y de inicio
+   */
   public void limpiarVaciosAlrededor(ArrayList<Coordenadas> arrCoordenadas, int actualX, int actualY) {
 
     arrCoordenadas.add(new Coordenadas(actualX, actualY));

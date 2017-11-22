@@ -53,21 +53,32 @@ public class FXMLMenuController implements Initializable {
     });
   }
 
+/**
+ * Metodo hacia el inicio de sesion
+ */
   public void inicioSesion() {
     try {
+      //Recupera el stage de el boton btnRegistrarse
       Stage stage = (Stage) btnSalir.getScene().getWindow();
+      //Cierra el stage
       stage.close();
       
-      
+      //Carga la nueva interfaz
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/pantallas/FXMLInicioSesion.fxml"));
+      //Lo carga en la escena
       Parent root1 = (Parent) fxmlLoader.load();
+      //Pone la escena en el stage y lo muestra
       stage.setScene(new Scene(root1));
       stage.show();
     } catch (IOException ex) {
-      Logger.getLogger(FXMLMenuController.class.getName()).log(Level.SEVERE, null, ex);
+      Logger.getLogger(FXMLCrearCuentaController.class.getName()).log(Level.SEVERE, null, ex);
     }
+    
+
   }
-  
+  /**
+   * Metodo para ir a la interfaz opciones
+   */
   public void opciones(){
     try {
       Stage planillaStage = (Stage) btnSalir.getScene().getWindow();  //Se obtiene el stage del boton salir
@@ -83,7 +94,9 @@ public class FXMLMenuController implements Initializable {
       Logger.getLogger(FXMLInicioSesionController.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
-  
+  /**
+   * Metodo para ir a la interfaz jugar
+   */
   public void jugar(){
     try {
       Stage planillaStage = (Stage) btnSalir.getScene().getWindow();  //Se obtiene el stage del boton salir
