@@ -21,10 +21,10 @@
          </fill>
       </Rectangle>
       <Label layoutX="161.0" layoutY="94.0" text="Dificultad:" />
-      <Slider fx:id="sldVolumen" layoutX="274.0" layoutY="164.0" minorTickCount="0" showTickLabels="true" snapToTicks="true" value="100.0" />
+      <Slider fx:id="sldVolumen" layoutX="274.0" layoutY="164.0" majorTickUnit="20.0" minorTickCount="0" showTickLabels="true" snapToTicks="true" value="100.0" />
       <Label layoutX="163.0" layoutY="172.0" text="Volumen:" />
-      <Button layoutX="291.0" layoutY="383.0" mnemonicParsing="false" text="Guardar" />
-      <Button layoutX="576.0" layoutY="427.0" mnemonicParsing="false" text="Salir" />
+      <Button fx:id="btnGuardar" layoutX="291.0" layoutY="383.0" mnemonicParsing="false" text="Guardar" />
+      <Button fx:id="btnSalir" layoutX="576.0" layoutY="427.0" mnemonicParsing="false" text="Salir" />
       <Label layoutX="169.0" layoutY="305.0" text="Puerto:" />
       <Label layoutX="188.0" layoutY="339.0" text="IP:" />
       <TextField fx:id="txfPuerto" layoutX="269.0" layoutY="301.0" prefHeight="25.0" prefWidth="149.0" />

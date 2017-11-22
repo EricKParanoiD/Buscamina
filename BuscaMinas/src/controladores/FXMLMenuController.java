@@ -70,19 +70,34 @@ public class FXMLMenuController implements Initializable {
   
   public void opciones(){
     try {
-      Stage planillaStage = (Stage) btnSalir.getScene().getWindow();
-      FXMLLoader loader = new FXMLLoader();
-      AnchorPane root = (AnchorPane) loader.load(getClass().getResource("/pantallas/FXMLOpciones.fxml").openStream());
-      FXMLOpcionesController cOpciones = (FXMLOpcionesController) loader.getController();
+      Stage planillaStage = (Stage) btnSalir.getScene().getWindow();  //Se obtiene el stage del boton salir
+      FXMLLoader loader = new FXMLLoader(); //instancia de loader
+      AnchorPane root = (AnchorPane) loader.load(getClass().getResource("/pantallas/FXMLOpciones.fxml").openStream());  //Se obtiene el recurso FXML y se abre su stream
+      FXMLOpcionesController cOpciones = (FXMLOpcionesController) loader.getController(); //Se obtiene el controlador con el loader y se castea
+      //Se usa el setId para pasar el parametro
       cOpciones.setId(id);
-      cOpciones.cargarOpciones();
-      planillaStage.setScene(new Scene(root));
-      planillaStage.show();
+      cOpciones.cargarOpciones(); //Se cargan las opciones
+      planillaStage.setScene(new Scene(root)); //Se pone la escena en el stage
+      planillaStage.show(); //se muestra
     } catch (IOException ex) {
       Logger.getLogger(FXMLInicioSesionController.class.getName()).log(Level.SEVERE, null, ex);
     }
   }
   
+  public void jugar(){
+    try {
+      Stage planillaStage = (Stage) btnSalir.getScene().getWindow();  //Se obtiene el stage del boton salir
+      FXMLLoader loader = new FXMLLoader(); //instancia de loader
+      AnchorPane root = (AnchorPane) loader.load(getClass().getResource("/pantallas/FXMLEspera.fxml").openStream());  //Se obtiene el recurso FXML y se abre su stream
+      FXMLEsperaController cEspera = (FXMLEsperaController) loader.getController(); //Se obtiene el controlador con el loader y se castea
+      //Se usa el setId para pasar el parametro
+      cEspera.setId(id);
+      planillaStage.setScene(new Scene(root)); //Se pone la escena en el stage
+      planillaStage.show(); //se muestra
+    } catch (IOException ex) {
+      Logger.getLogger(FXMLInicioSesionController.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  }
   public void setId(int id) {
     this.id = id;
   }

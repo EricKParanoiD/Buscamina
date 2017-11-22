@@ -55,8 +55,8 @@ public class FXMLCrearCuentaController implements Initializable {
   Button btnRegistrarse;
   @FXML
   Button btnRegresar;
-  Alerta alerta = new Alerta();
-  JugadorJpaController jugadorjpa = new JugadorJpaController();
+  Alerta alerta = new Alerta(); //Alerta para uso de alertas en la clase
+  JugadorJpaController jugadorjpa = new JugadorJpaController(); //Controlador de entidades de jugador
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {
@@ -96,6 +96,13 @@ public class FXMLCrearCuentaController implements Initializable {
           }
 
         }
+      }
+    });
+  
+  btnRegresar.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        inicioSesion();
       }
     });
   }

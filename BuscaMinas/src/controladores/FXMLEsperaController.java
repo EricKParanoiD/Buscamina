@@ -14,9 +14,15 @@ public class FXMLEsperaController implements Initializable {
   /**
    * Initializes the controller class.
    */
+  private int id;
   @Override
   public void initialize(URL url, ResourceBundle rb) {
    
   }  
+
+  public void setId(int id) {
+    this.id = id;
+  }
+  
   
 }
