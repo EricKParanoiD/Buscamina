@@ -11,32 +11,45 @@ import javafx.scene.control.ButtonType;
  */
 public class Alerta {
 
-
+/**
+ * Crea alerta para informacion
+ * @param titulo el titulo de la alerta
+ * @param cabeza cabeza de la alerta
+ * @param mensaje mensaje de alerta
+ */
 public void alertaInfo(String titulo, String cabeza, String mensaje){
+  //Se crea la alerta
   Alert alert = new Alert(AlertType.WARNING);
-alert.setTitle(titulo);
-alert.setHeaderText(cabeza);
-alert.setContentText(mensaje);
+alert.setTitle(titulo); //Se le pone el titulo
+alert.setHeaderText(cabeza);  //Se le pone la cabeza
+alert.setContentText(mensaje);  //Se le pone el mensaje
 
-alert.showAndWait();
+alert.showAndWait();  //Se muestra y espera por respuesta
 }
 
+/**
+ * Alerta para aviso de todo correcto
+ * @param titulo el titulo de la alerta
+ * @param cabeza cabeza de la alerta
+ * @param mensaje mensaje de alerta
+ */
 public void alertaOk(String titulo, String cabeza, String mensaje){
+  //Se crea la alerta
   Alert alert = new Alert(AlertType.INFORMATION);
-alert.setTitle(titulo);
-alert.setHeaderText(cabeza);
-alert.setContentText(mensaje);
+alert.setTitle(titulo); //Se le pone el titulo
+alert.setHeaderText(cabeza);  //Se le pone la cabeza
+alert.setContentText(mensaje);  //Se le pone el mensaje
 
-alert.showAndWait();
+alert.showAndWait();  //Se muestra y espera por respuesta
 }
 
 public boolean alertaConfirmacion(String titulo, String cabeza, String mensaje){
   Alert alert = new Alert(AlertType.CONFIRMATION);
-alert.setTitle(titulo);
-alert.setHeaderText(cabeza);
-alert.setContentText(mensaje);
+alert.setTitle(titulo); //Se le pone el titulo
+alert.setHeaderText(cabeza);  //Se le pone la cabeza
+alert.setContentText(mensaje);  //Se le pone el mensaje
 
-Optional<ButtonType> result = alert.showAndWait();
-  return result.get() == ButtonType.OK;
+Optional<ButtonType> result = alert.showAndWait(); //Se muestra y espera por confirmacion
+  return result.get() == ButtonType.OK; //Se regresa true si es aceptar o false cancelar
 }
 }

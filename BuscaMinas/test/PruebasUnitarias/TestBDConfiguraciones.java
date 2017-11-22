@@ -20,8 +20,6 @@ public class TestBDConfiguraciones {
   //Variables de uso global
   ConfiguracionesJpaController configuracionjpa=new ConfiguracionesJpaController();
   List<Configuraciones> configuraciones=configuracionjpa.findConfiguracionesEntities();
-  public TestBDConfiguraciones() {
-  }
   
   /**
    * before que actualiza la lista de configuraciones con la base de datos

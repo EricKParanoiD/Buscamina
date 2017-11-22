@@ -13,7 +13,11 @@ public class Coordenadas {
   private int coordenadaX; //atributo de coordenada X
   private int coordenadaY; //atributo de coordenada Y
 
-  
+  /**
+   * Constructor de coordenadas
+   * @param coordenadaX coordenada X
+   * @param coordenadaY coordenada Y
+   */
   public Coordenadas(int coordenadaX, int coordenadaY) {
     this.coordenadaX = coordenadaX;
     this.coordenadaY = coordenadaY;
@@ -32,6 +36,17 @@ if(( o instanceof Coordenadas)){
 
 }
   //Setters y getters
+/**
+ * Metodo hashcode generado
+ * @return el hashcode
+ */
+  @Override
+  public int hashCode() {
+    int hash = 5;
+    hash = 37 * hash + this.coordenadaX;
+    hash = 37 * hash + this.coordenadaY;
+    return hash;
+  }
 
   public int getCoordenadaX() {
     return coordenadaX;

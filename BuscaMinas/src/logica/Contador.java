@@ -23,11 +23,16 @@ private int segundos;
       System.out.println("Segundos: "+i);
     }
    }
-//Constructor
+/**
+ * Constructor
+ * @param segundos numero de segundos
+ */
   public Contador(int segundos) {
     this.segundos = segundos;
   }
-  
+  /**
+   * Metodo para esperar un segundo
+   */
   public void esperarSegundo(){
     try {
         Thread.sleep(1000);        

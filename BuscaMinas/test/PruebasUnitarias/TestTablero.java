@@ -3,7 +3,6 @@ package PruebasUnitarias;
 import java.util.ArrayList;
 import logica.Coordenadas;
 import logica.Tablero;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +16,6 @@ public class TestTablero {
   Tablero tab;
   int [][] arrPrueba;
   
-  public TestTablero() {
-  }
   /**
    * Inicializacion del Tablero
    */  
@@ -27,11 +24,7 @@ public class TestTablero {
     System.out.println("Before");
     tab=new Tablero();
   }
-  
-  @After
-  public void after() {
-    System.out.println("After");
-  }
+ 
   /**
    * Prueba del metodo inicializar
    */
@@ -101,8 +94,8 @@ public class TestTablero {
   }
   
   /**
-   * 
-  */ 
+   * test de limpiar vacios alrededor
+   */ 
   @Test
   public void testLimpiarVaciosAlrededor(){
     System.out.println("Test LimpiarVaciosAlrededor");
@@ -119,7 +112,7 @@ public class TestTablero {
     tab.contarAlrededor(); //uso del metodo contarAlrededor
     tab.imprimirMatriz(); //Se imprime para verificar
     ArrayList<Coordenadas> arrLimpios=new ArrayList<>();
-    arrLimpios=tab.limpiarVaciosAlrededor(arrLimpios,0, 5);
+    tab.limpiarVaciosAlrededor(arrLimpios,0, 5);
     for (int i = 0; i < arrLimpios.size(); i++) {
    System.out.println("X:"+arrLimpios.get(i).getCoordenadaX()+"Y:"+arrLimpios.get(i).getCoordenadaY());      
     }
@@ -127,7 +120,7 @@ public class TestTablero {
     tab.imprimirMatriz();
     
     ArrayList<Coordenadas> arrLimpios2=new ArrayList<>();
-    arrLimpios2=tab.limpiarVaciosAlrededor(arrLimpios2, 0, 0);
+    tab.limpiarVaciosAlrededor(arrLimpios2, 0, 0);
     for (int i = 0; i < arrLimpios2.size(); i++) {
    System.out.println("X2:"+arrLimpios2.get(i).getCoordenadaX()+"Y2:"+arrLimpios2.get(i).getCoordenadaY());      
     }

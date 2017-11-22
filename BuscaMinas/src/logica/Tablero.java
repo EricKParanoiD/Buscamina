@@ -17,13 +17,19 @@ public final class Tablero {
   private int numMinas; //numero de minas en el campo
   private int tamano; //tamaño del cuadrante del tablero
 
+  /**
+   * Constructor de tablero
+   *
+   * @param numMinas numero de minas a colocar en el tablero
+   * @param tamano tamaño del cuadrado de tablero
+   */
   public Tablero(int numMinas, int tamano) {
     this.numMinas = numMinas;
     this.tamano = tamano;
     this.arrCasilla = new int[tamano][tamano];
-    inicializar();
-    sortear();
-    contarAlrededor();
+    inicializar();  //inicializacion de tablero
+    sortear();  //Sorteo de minas
+    contarAlrededor();  //conteo alrededor de minas
   }
 
   public Tablero() {
@@ -89,6 +95,9 @@ public final class Tablero {
     }
   }
 
+  /**
+   * metodo de impresion de matriz para comprobacion visual
+   */
   public void imprimirMatriz() {
     for (int i = 0; i < arrCasilla.length; i++) {
       for (int j = 0; j < arrCasilla.length; j++) {
@@ -98,7 +107,7 @@ public final class Tablero {
     }
   }
 
-  public ArrayList<Coordenadas> limpiarVaciosAlrededor(ArrayList<Coordenadas> arrCoordenadas, int actualX, int actualY) {
+  public void limpiarVaciosAlrededor(ArrayList<Coordenadas> arrCoordenadas, int actualX, int actualY) {
 
     arrCoordenadas.add(new Coordenadas(actualX, actualY));
     for (int k = 0; k < 3; k++) {
@@ -107,21 +116,18 @@ public final class Tablero {
         int corY = actualY + (l - 1);
         System.out.println("Comprobando el " + corX + ", " + corY + "Con " + actualX + ", " + actualY);
         //Condicion que verifica que no se repase a si misma la casilla, y las oordenadas no se salgan del arreglo
-        if ((actualX != corX || actualY != corY) && (corX >= 0 && corX < arrCasilla.length) && (corY >= 0 && corY < arrCasilla.length) && !(arrCoordenadas.contains(new Coordenadas(corX,corY)))) {
+        if ((actualX != corX || actualY != corY) && (corX >= 0 && corX < arrCasilla.length) && (corY >= 0 && corY < arrCasilla.length) && !(arrCoordenadas.contains(new Coordenadas(corX, corY)))) {
           System.out.println("Entrando a limpiar " + corX + "," + corY);
           if (arrCasilla[corX][corY] == 0) {
-            
+
             limpiarVaciosAlrededor(arrCoordenadas, corX, corY);
-          } else {
-            if(!arrCoordenadas.contains(new Coordenadas(corX, corY))){
-              arrCoordenadas.add(new Coordenadas(corX, corY));
-            }
+          } else if (!arrCoordenadas.contains(new Coordenadas(corX, corY))) {
+            arrCoordenadas.add(new Coordenadas(corX, corY));
           }
         }
       }
     }
 
-    return arrCoordenadas;
   }
   //Setters y Getters
 
