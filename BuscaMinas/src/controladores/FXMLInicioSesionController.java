@@ -18,8 +18,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import logica.Context;
 import logica.Encriptar;
 
 /**
@@ -42,7 +42,6 @@ public class FXMLInicioSesionController implements Initializable {
   List<Jugador> jugadores = jugadorjpa.findJugadorEntities(); //Lista para guardar entidades de la base de datos
   Encriptar encript = new Encriptar(); //Variable para encriptacion
   Alerta alerta = new Alerta(); //Variable para la creacion de alertas
-  private int id;
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     /**
@@ -97,7 +96,7 @@ public class FXMLInicioSesionController implements Initializable {
         String contrasena = jugadores.get(i).getContrasena(); //variable auxiliar para la contraseña
         String contrasenaUsuario = encript.convertirSHA256(psfContrasena.getText()); //contraseña introducida hasheada
         if (contrasena.equals(contrasenaUsuario)) {
-          setId(jugadores.get(i).getIdJugador()); //Id del jugador guardado para enviarlo posteriormente
+          Context.getInstance().currentPlayer().setIdJugador(jugadores.get(i).getIdJugador()); //Id del jugador guardado para enviarlo posteriormente
           return 0; //0 para nombre y contraseña correctas
         } else {
           return 1; //1 para contraseña incorrecta
@@ -114,11 +113,8 @@ public class FXMLInicioSesionController implements Initializable {
   private void menu() {
     try {
       Stage planillaStage = (Stage) btnCrear.getScene().getWindow();  //Se obtiene el stage del boton crear
-      FXMLLoader loader = new FXMLLoader(); //instancia de loader
-      AnchorPane root = (AnchorPane) loader.load(getClass().getResource("/pantallas/FXMLMenu.fxml").openStream()); //Se obtiene el recurso FXML y se abre su stream
-      FXMLMenuController cMenu = (FXMLMenuController) loader.getController(); //Se obtiene el controlador con el loader y se castea
-      //Se usa el setId para pasar el parametro
-      cMenu.setId(id);
+      ResourceBundle rb=ResourceBundle.getBundle("resource.Bundle");
+      Parent root=FXMLLoader.load(getClass().getResource("/pantallas/FXMLMenu.fxml"),rb); //Se obtiene el recurso FXML y se abre su stream      
       planillaStage.setScene(new Scene(root)); //Se pone la escena en el stage
       planillaStage.show(); //Se muestra
     } catch (IOException ex) {
@@ -145,8 +141,5 @@ public class FXMLInicioSesionController implements Initializable {
 
   }
 
-  public void setId(int id) {
-    this.id = id;
-  }
 
 }

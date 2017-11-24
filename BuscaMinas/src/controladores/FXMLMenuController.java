@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import logica.Context;
 
 /**
  * FXML Controller class
@@ -37,6 +38,7 @@ public class FXMLMenuController implements Initializable {
   private int id;
   @Override
   public void initialize(URL url, ResourceBundle rb) {
+    id=Context.getInstance().currentPlayer().getIdJugador();
     
     btnSalir.setOnAction(new EventHandler<ActionEvent>() {
       @Override

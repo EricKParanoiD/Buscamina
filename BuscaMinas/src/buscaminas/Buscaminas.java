@@ -6,6 +6,7 @@
 package buscaminas;
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,8 +20,8 @@ public class Buscaminas extends Application {
   
   @Override
   public void start(Stage primaryStage) throws IOException {
-    
-  Parent root=FXMLLoader.load(getClass().getResource("/pantallas/FXMLInicioSesion.fxml"));  
+    ResourceBundle rb=ResourceBundle.getBundle("resource.Bundle"); 
+  Parent root=FXMLLoader.load(getClass().getResource("/pantallas/FXMLInicioSesion.fxml"),rb);  
     
     Scene scene = new Scene(root);
     primaryStage.setScene(scene);
