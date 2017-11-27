@@ -23,6 +23,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import logica.Context;
 
 /**
  * FXML Controller class
@@ -58,6 +59,7 @@ public class FXMLOpcionesController implements Initializable {
     listaDificultad.add("Dificil");
     ObservableList<String> listaObserv = FXCollections.observableArrayList(listaDificultad); //Cambio de Arraylist a ObservableList para visualizarlo
     cbbDificultad.setItems(listaObserv); //Items de comboBox colocados
+    cargarOpciones();
     /**
      * Accion para le boton de salir
      */
@@ -89,11 +91,8 @@ public class FXMLOpcionesController implements Initializable {
   private void menu() {
     try {
       Stage planillaStage = (Stage) btnSalir.getScene().getWindow();  //Se obtiene el stage del boton crear
-      FXMLLoader loader = new FXMLLoader(); //instancia de loader
-      AnchorPane root = (AnchorPane) loader.load(getClass().getResource("/pantallas/FXMLMenu.fxml").openStream()); //Se obtiene el recurso FXML y se abre su stream
-      FXMLMenuController cMenu = (FXMLMenuController) loader.getController(); //Se obtiene el controlador con el loader y se castea
-      //Se usa el setId para pasar el parametro
-      cMenu.setId(id);
+      ResourceBundle rb=ResourceBundle.getBundle("resource.Bundle");
+      AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("/pantallas/FXMLMen.fxml"), rb); //Se obtiene el recurso FXML y se abre su stream
       planillaStage.setScene(new Scene(root)); //Se pone la escena en el stage
       planillaStage.show(); //Se muestra
     } catch (IOException ex) {
@@ -105,6 +104,7 @@ public class FXMLOpcionesController implements Initializable {
    * Metodo para cargar las opciones del jugador
    */
   public void cargarOpciones(){
+    id=Context.getInstance().currentPlayer().getIdJugador();
     Configuraciones configuracion=configuracionesjpa.findConfiguraciones(id); //busca las configuraciones por id
     cbbDificultad.getSelectionModel().select(configuracion.getDificultad()-1); //selecciona la dificultad (-1 por el indice)
     sldVolumen.setValue(configuracion.getVolumen()); //Se pone el valor del volumen

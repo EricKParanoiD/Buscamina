@@ -39,7 +39,12 @@ public class FXMLMenuController implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle rb) {
     id=Context.getInstance().currentPlayer().getIdJugador();
-    
+    btnJugar.setOnAction(new EventHandler<ActionEvent>() {
+      @Override
+      public void handle(ActionEvent event) {
+        jugar();
+      }
+    });
     btnSalir.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
@@ -66,7 +71,8 @@ public class FXMLMenuController implements Initializable {
       stage.close();
       
       //Carga la nueva interfaz
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/pantallas/FXMLInicioSesion.fxml"));
+      ResourceBundle rb=ResourceBundle.getBundle("resource.Bundle");
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/pantallas/FXMLInicioSesion.fxml"),rb);
       //Lo carga en la escena
       Parent root1 = (Parent) fxmlLoader.load();
       //Pone la escena en el stage y lo muestra
@@ -84,12 +90,8 @@ public class FXMLMenuController implements Initializable {
   public void opciones(){
     try {
       Stage planillaStage = (Stage) btnSalir.getScene().getWindow();  //Se obtiene el stage del boton salir
-      FXMLLoader loader = new FXMLLoader(); //instancia de loader
-      AnchorPane root = (AnchorPane) loader.load(getClass().getResource("/pantallas/FXMLOpciones.fxml").openStream());  //Se obtiene el recurso FXML y se abre su stream
-      FXMLOpcionesController cOpciones = (FXMLOpcionesController) loader.getController(); //Se obtiene el controlador con el loader y se castea
-      //Se usa el setId para pasar el parametro
-      cOpciones.setId(id);
-      cOpciones.cargarOpciones(); //Se cargan las opciones
+      ResourceBundle rb=ResourceBundle.getBundle("resource.Bundle");
+      AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("/pantallas/FXMLOpciones.fxml"), rb);  //Se obtiene el recurso FXML y se abre su stream
       planillaStage.setScene(new Scene(root)); //Se pone la escena en el stage
       planillaStage.show(); //se muestra
     } catch (IOException ex) {
@@ -102,11 +104,8 @@ public class FXMLMenuController implements Initializable {
   public void jugar(){
     try {
       Stage planillaStage = (Stage) btnSalir.getScene().getWindow();  //Se obtiene el stage del boton salir
-      FXMLLoader loader = new FXMLLoader(); //instancia de loader
-      AnchorPane root = (AnchorPane) loader.load(getClass().getResource("/pantallas/FXMLEspera.fxml").openStream());  //Se obtiene el recurso FXML y se abre su stream
-      FXMLEsperaController cEspera = (FXMLEsperaController) loader.getController(); //Se obtiene el controlador con el loader y se castea
-      //Se usa el setId para pasar el parametro
-      cEspera.setId(id);
+      ResourceBundle rb=ResourceBundle.getBundle("resource.Bundle");
+      AnchorPane root = (AnchorPane) FXMLLoader.load(getClass().getResource("/pantallas/FXMLEspera.fxml"), rb);  //Se obtiene el recurso FXML y se abre su stream
       planillaStage.setScene(new Scene(root)); //Se pone la escena en el stage
       planillaStage.show(); //se muestra
     } catch (IOException ex) {

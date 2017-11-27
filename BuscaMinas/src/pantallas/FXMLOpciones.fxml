@@ -20,13 +20,13 @@
             </LinearGradient>
          </fill>
       </Rectangle>
-      <Label layoutX="161.0" layoutY="94.0" text="Dificultad:" />
+      <Label layoutX="161.0" layoutY="94.0" text="%difficulty" />
       <Slider fx:id="sldVolumen" layoutX="274.0" layoutY="164.0" majorTickUnit="20.0" minorTickCount="0" showTickLabels="true" snapToTicks="true" value="100.0" />
-      <Label layoutX="163.0" layoutY="172.0" text="Volumen:" />
-      <Button fx:id="btnGuardar" layoutX="291.0" layoutY="383.0" mnemonicParsing="false" text="Guardar" />
-      <Button fx:id="btnSalir" layoutX="576.0" layoutY="427.0" mnemonicParsing="false" text="Salir" />
-      <Label layoutX="169.0" layoutY="305.0" text="Puerto:" />
-      <Label layoutX="188.0" layoutY="339.0" text="IP:" />
+      <Label layoutX="163.0" layoutY="172.0" text="%volume" />
+      <Button fx:id="btnGuardar" layoutX="291.0" layoutY="383.0" mnemonicParsing="false" text="%save" />
+      <Button fx:id="btnSalir" layoutX="576.0" layoutY="427.0" mnemonicParsing="false" text="%exit" />
+      <Label layoutX="169.0" layoutY="305.0" text="%port" />
+      <Label layoutX="188.0" layoutY="339.0" text="%ip" />
       <TextField fx:id="txfPuerto" layoutX="269.0" layoutY="301.0" prefHeight="25.0" prefWidth="149.0" />
       <TextField fx:id="txfIp" layoutX="269.0" layoutY="335.0" />
       <ComboBox fx:id="cbbDificultad" layoutX="269.0" layoutY="90.0" prefWidth="150.0" />

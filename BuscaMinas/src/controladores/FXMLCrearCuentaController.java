@@ -117,7 +117,8 @@ public class FXMLCrearCuentaController implements Initializable {
       stage.close();
       
       //Carga la nueva interfaz
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/pantallas/FXMLInicioSesion.fxml"));
+      ResourceBundle rb=ResourceBundle.getBundle("resource.Bundle");
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/pantallas/FXMLInicioSesion.fxml"), rb);
       //Lo carga en la escena
       Parent root1 = (Parent) fxmlLoader.load();
       //Pone la escena en el stage y lo muestra

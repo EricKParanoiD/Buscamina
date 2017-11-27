@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import java.lang.*?>
@@ -12,9 +13,11 @@
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#1feeff" height="480.0" stroke="BLACK" strokeType="INSIDE" width="640.0" />
       <ProgressBar layoutX="121.0" layoutY="222.0" prefHeight="18.0" prefWidth="399.0" progress="0.0" />
-      <Label layoutX="238.0" layoutY="50.0" text="Esperando por mas jugadores..." />
-      <Label layoutX="273.0" layoutY="193.0" text="Iniciando partida..." />
-      <ListView layoutX="220.0" layoutY="251.0" prefHeight="186.0" prefWidth="200.0" />
-      <Label layoutX="154.0" layoutY="251.0" text="Jugadores:" />
+      <Label fx:id="lblEspera" layoutX="238.0" layoutY="50.0" text="%waiting" />
+      <Label fx:id="lblEmpezando" layoutX="273.0" layoutY="193.0" text="%starting" />
+      <ListView fx:id="lsvJugadores" layoutX="220.0" layoutY="251.0" prefHeight="186.0" prefWidth="200.0" />
+      <Label layoutX="129.0" layoutY="251.0" text="%players" />
+      <ImageView fx:id="imgCargando" fitHeight="30.0" fitWidth="30.0" layoutX="415.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="btnCancelar" layoutX="556.0" layoutY="437.0" mnemonicParsing="false" text="%cancel" />
    </children>
 </AnchorPane>

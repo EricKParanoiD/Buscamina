@@ -114,7 +114,7 @@ public class FXMLInicioSesionController implements Initializable {
     try {
       Stage planillaStage = (Stage) btnCrear.getScene().getWindow();  //Se obtiene el stage del boton crear
       ResourceBundle rb=ResourceBundle.getBundle("resource.Bundle");
-      Parent root=FXMLLoader.load(getClass().getResource("/pantallas/FXMLMenu.fxml"),rb); //Se obtiene el recurso FXML y se abre su stream      
+      Parent root=FXMLLoader.load(getClass().getResource("/pantallas/FXMLMen.fxml"),rb); //Se obtiene el recurso FXML y se abre su stream      
       planillaStage.setScene(new Scene(root)); //Se pone la escena en el stage
       planillaStage.show(); //Se muestra
     } catch (IOException ex) {
@@ -130,8 +130,8 @@ public class FXMLInicioSesionController implements Initializable {
     try {
       Stage stage = (Stage) btnIniciar.getScene().getWindow();
       stage.close();
-
-      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/pantallas/FXMLCrearCuenta.fxml"));
+      ResourceBundle rb=ResourceBundle.getBundle("resource.Bundle");
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/pantallas/FXMLCrearCuenta.fxml"), rb);
       Parent root1 = (Parent) fxmlLoader.load();
       stage.setScene(new Scene(root1));
       stage.show();
