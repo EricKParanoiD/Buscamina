@@ -5,20 +5,30 @@
  */
 package buscaminas;
 
-import logica.Contador;
+import java.io.IOException;
+import java.util.ResourceBundle;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 /**
  *
  * @author EricK
  */
-public class Prueba {
-
-  /**
-   * @param args the command line arguments
-   */
-  public static void main(String[] args) {
-    Thread contador=new Thread(new Contador(30));
-    contador.start();
-  }
+public class Prueba extends Application {
   
+  @Override
+  public void start(Stage primaryStage) throws IOException {
+    ResourceBundle rb=ResourceBundle.getBundle("resource.Bundle"); 
+  Parent root=FXMLLoader.load(getClass().getResource("/pantallas/FXMLJuegoPrincipiante.fxml"),rb);  
+    
+    Scene scene = new Scene(root);
+    primaryStage.setScene(scene);
+    primaryStage.show();
+  }
+  public static void main(String[] args) {
+    launch(args); 
+  }
 }
