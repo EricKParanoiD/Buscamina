@@ -34,7 +34,6 @@ public class Contador extends Thread {
         }
         if (cambiar instanceof Label) {
           ((Label) cambiar).setText(Integer.toString(i));          
-
         }
     }
 });

@@ -1,7 +1,12 @@
-var io = require("socket.io")(7001);
-
-io.on("connection", function(socket){
-	console.log("Cliente conectado");  
-	socket.emit("comenzarPartida", "nomas"); //Prueba para contador
-	socket.on("infoJugador", function(id, nombre, dificultad){});
-});
+var facil=[];
+var resultado;
+if(facil[0]!=null){
+if(facil[0].estado=="espera"){
+resultado=0;
+}else{
+resultado=1;
+}
+}else{
+resultado=3;
+}
+console.log("resultado"+resultado);

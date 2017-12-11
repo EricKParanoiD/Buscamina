@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package logica;
 
 import entidades.Jugador;
+import io.socket.client.Socket;
 
 public class Context {
     private final static Context instance = new Context();
@@ -15,11 +11,19 @@ public class Context {
     }
 
     private final Jugador jugador;
-
+    private Socket socket;
+    
   public Context() {
     this.jugador = new Jugador();
   }
 
+    public Socket currentSocket(){
+      return socket;
+    }
+    
+    public void setSocket(Socket socket){
+      this.socket=socket;
+    }
     public Jugador currentPlayer() {
         return jugador;
     }
