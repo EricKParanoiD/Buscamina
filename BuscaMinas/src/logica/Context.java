@@ -12,11 +12,19 @@ public class Context {
 
     private final Jugador jugador;
     private Socket socket;
-    
+    private String room;
   public Context() {
     this.jugador = new Jugador();
   }
-
+  
+  public String currentRoom(){
+    return room;
+  }
+  
+  public void setRoom(String room){
+    this.room=room;
+  }
+ 
     public Socket currentSocket(){
       return socket;
     }

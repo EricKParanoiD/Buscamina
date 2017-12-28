@@ -1,5 +1,4 @@
 package controladores;
-
 import controller.ConfiguracionesJpaController;
 import controller.JugadorJpaController;
 import entidades.Configuraciones;
@@ -30,7 +29,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import logica.Context;
 
 /**
@@ -58,7 +56,7 @@ public class FXMLEsperaController implements Initializable {
   ListView lsvJugadores;
   @FXML
   ProgressBar pgbRegresiva;
-  private ObservableList<String> nombres = FXCollections.observableArrayList();
+  private final ObservableList<String> nombres = FXCollections.observableArrayList();
 
   @Override
   public void initialize(URL url, ResourceBundle rb) {
@@ -68,23 +66,14 @@ public class FXMLEsperaController implements Initializable {
     lblEmpezando.setVisible(false);
     Image cargando = new Image("/resource/cargando.gif");
     imgCargando.setImage(cargando);
-    Stage planillaStage = (Stage) btnCancelar.getScene().getWindow();
-    planillaStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-      @Override
-      public void handle(WindowEvent event) {
-        JugadorJpaController jugadorjpa = new JugadorJpaController();
-        Jugador jugador = jugadorjpa.findJugador(id);
-        ConfiguracionesJpaController configuracionesjpa = new ConfiguracionesJpaController(); //Controlador de configuraciones jpa
-        Configuraciones configuracion = configuracionesjpa.findConfiguraciones(id); //busca las configuraciones por id
-        String nombre = jugador.getNombreJugador();
-        int dificultad = configuracion.getDificultad();
-        socket.emit("cerrar", room, nombre,dificultad);
-        socket.close();
-      }
-    });
+    
     try {
       System.out.println("Intento");
-      socket = IO.socket("http://localhost:7001");
+      ConfiguracionesJpaController configuracionesjpa = new ConfiguracionesJpaController(); //Controlador de configuraciones jpa
+      Configuraciones configuracion = configuracionesjpa.findConfiguraciones(id); //Se obtienen las configuraciones
+      String host=configuracion.getIp();  //Se obtiene el host
+      int puerto=configuracion.getPuerto(); //Se obtiene el puerto
+      socket = IO.socket("http://"+host+":"+puerto); //Se inicia el socket con puerto y host
       socket.connect();
       socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
 
@@ -140,8 +129,21 @@ public class FXMLEsperaController implements Initializable {
       }).on("inicioPartida", new Emitter.Listener() {
         @Override
         public void call(Object... os) {
-          Context.getInstance().setSocket(socket);
-          juegoPrincipiante();
+          Platform.runLater(() -> {
+            Context.getInstance().setSocket(socket);
+          String dificultad=(String) os[0];
+          System.out.println("Vamos a partida "+ dificultad);
+          if(dificultad.equals("facil")){
+            juegoPrincipiante();
+          }
+          if(dificultad.equals("intermedio")){
+            juegoIntermedio();
+          }
+          if(dificultad.equals("dificil")){
+            juegoDificil();
+          }
+          });
+          
 
         }
       });
@@ -152,12 +154,25 @@ public class FXMLEsperaController implements Initializable {
     btnCancelar.setOnAction(new EventHandler<ActionEvent>() {
       @Override
       public void handle(ActionEvent event) {
-        socket.close();
+        cerrar();
         menu();
       }
     });
   }
-
+  /**
+   * Metodo para cerrar el socket
+   */
+  public void cerrar(){
+    System.out.println("Cerrar");
+        JugadorJpaController jugadorjpa = new JugadorJpaController();
+        Jugador jugador = jugadorjpa.findJugador(id);
+        ConfiguracionesJpaController configuracionesjpa = new ConfiguracionesJpaController(); //Controlador de configuraciones jpa
+        Configuraciones configuracion = configuracionesjpa.findConfiguraciones(id); //busca las configuraciones por id
+        String nombre = jugador.getNombreJugador(); //Busca el nombre
+        int dificultad = configuracion.getDificultad(); //Dificultad obtenida
+        socket.emit("cerrar", room, nombre,dificultad); //Emit de cerrar con informacion
+        socket.close(); //Cierre final de socket
+  }
   public void envioInfo() {
     JugadorJpaController jugadorjpa = new JugadorJpaController();
     Jugador jugador = jugadorjpa.findJugador(id);
@@ -184,11 +199,46 @@ public class FXMLEsperaController implements Initializable {
 
   }
 
+  /**
+   * Metodo para la invocacion de la ventana del juego en dificultad principiante
+   */
   private void juegoPrincipiante() {
     try {
       Stage planillaStage = (Stage) btnCancelar.getScene().getWindow();  //Se obtiene el stage del boton crear
       ResourceBundle rb = ResourceBundle.getBundle("resource.Bundle");
       Parent root = FXMLLoader.load(getClass().getResource("/pantallas/FXMLJuegoPrincipiante.fxml"), rb); //Se obtiene el recurso FXML y se abre su stream      
+      planillaStage.setScene(new Scene(root)); //Se pone la escena en el stage
+      planillaStage.show(); //Se muestra
+    } catch (IOException ex) {
+      Logger.getLogger(FXMLInicioSesionController.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+  }
+  
+  /**
+   * Metodo para la invocacion de la ventana del juego en dificultad intermedio
+   */
+  private void juegoIntermedio() {
+    try {
+      Stage planillaStage = (Stage) btnCancelar.getScene().getWindow();  //Se obtiene el stage del boton crear
+      ResourceBundle rb = ResourceBundle.getBundle("resource.Bundle");
+      Parent root = FXMLLoader.load(getClass().getResource("/pantallas/FXMLJuegoIntermedio.fxml"), rb); //Se obtiene el recurso FXML y se abre su stream      
+      planillaStage.setScene(new Scene(root)); //Se pone la escena en el stage
+      planillaStage.show(); //Se muestra
+    } catch (IOException ex) {
+      Logger.getLogger(FXMLInicioSesionController.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+  }
+  
+  /**
+   * Metodo para la invocacion de la ventana del juego en dificultad dificil
+   */
+  private void juegoDificil() {
+    try {
+      Stage planillaStage = (Stage) btnCancelar.getScene().getWindow();  //Se obtiene el stage del boton crear
+      ResourceBundle rb = ResourceBundle.getBundle("resource.Bundle");
+      Parent root = FXMLLoader.load(getClass().getResource("/pantallas/FXMLDificil.fxml"), rb); //Se obtiene el recurso FXML y se abre su stream      
       planillaStage.setScene(new Scene(root)); //Se pone la escena en el stage
       planillaStage.show(); //Se muestra
     } catch (IOException ex) {
@@ -203,6 +253,7 @@ public class FXMLEsperaController implements Initializable {
 
   public void setRoom(String room) {
     System.out.println("Room: " + room);
+    Context.getInstance().setRoom(room);
     this.room = room;
   }
 

@@ -2,6 +2,7 @@ var io = require("socket.io")(7001); //Inicio
 var facil=[]; //Declaracion de arreglo para guardar datos de room facil
 var intermedio=[]; //intermedio
 var dificil=[];	//Dificil
+var colores=["Rosa", "Rojo", "Naranja", "Amarillo", "Verde", "Morado", "Azul", "Gris"];
 //Acciones en conexion
 io.on("connection", function(socket){
 	console.log("Cliente conectado");  //Mensaje de conexion
@@ -14,10 +15,12 @@ io.on("connection", function(socket){
 		//Emite el set room con la informacion devolvida por el metodo que busca una room libre en su dificultad
 		var roomUsuario=unirRoom(nombre, dificultad, socket);
 		console.log("usuario unido a "+roomUsuario);
-		socket.emit("setRoom", roomUsuario);
-
+		socket.emit("setRoom", roomUsuario); //Emit de la room a la que se unio el usuario
+/**
+Ciclo para actualizar todos los nombres en la room
+*/
 		if(dificultad==1){
-			var roomNumero=buscarRoom(roomUsuario, socket);
+			var roomNumero=buscarRoom(roomUsuario);
 			for(var i=0; i< facil[roomNumero].jugadores.length; i++){
 			socket.emit("actualizaNombre",facil[roomNumero].jugadores[i]);
 	}
@@ -36,7 +39,7 @@ io.on("connection", function(socket){
 	
 		}
 
-		
+		//Actualizacion del nombre del jugador para los demas jugadores en la room
 		console.log("emito actualizaNombre a room"+roomUsuario+" nombre "+nombre);
 		io.in(roomUsuario).emit("actualizaNombre", nombre);
 
@@ -46,30 +49,76 @@ io.on("connection", function(socket){
 		socket.emit("enUso", "cuenta en uso")
 	}
 	});
+/**
+Evento para la solicitud de informacion del usuario para la nueva interfaz
+*/
+	socket.on("solicitaInfo", function(room, dificultad, nombreJugador){
+		//If para la dificultad del usuario
+		if(dificultad==1){
+			//Se busca el numero de la room
+			var roomNumero=buscarRoom(room);
+			//Cliclo para la actualizacion de los nombres 
+			for(var i=0; i< facil[roomNumero].jugadores.length; i++){
+			socket.emit("actualizaNombre",facil[roomNumero].jugadores[i]);
+			//Se asigna un color diferente a cada jugador
+			if(nombreJugador==facil[roomNumero].jugadores[i]){
+				socket.emit("iniciarColor", colores[i]);
+			}
+	}
+			
+		}
+		if(dificultad==2){
+			var roomNumero=buscarRoom(room);
+			for(var i=0; i< intermedio[roomNumero].jugadores.length; i++){
+			socket.emit("actualizaNombre",intermedio[roomNumero].jugadores[i]);
+			if(nombreJugador==intermedio[roomNumero].jugadores[i]){
+				socket.emit("iniciarColor", colores[i]);
+			}
+	}
+		}
+		if(dificultad==3){
+			var roomNumero=buscarRoom(room);
+			for(var i=0; i< dificil[roomNumero].jugadores.length; i++){
+			socket.emit("actualizaNombre",dificil[roomNumero].jugadores[i]);
+			if(nombreJugador==dificil[roomNumero].jugadores[i]){
+				socket.emit("iniciarColor", colores[i]);
+			}
+	}
+	}
+});
 
-	socket.on("damePrueba", function(mensaje){
-		socket.emit("prueba", mensaje+" server");
-	});
-
+	/**
+	Evento de cierre actualizando toda la informacion de la room
+	*/
 	socket.on("cerrar", function(room, nombre, dificultad){
+		console.log("Cerrare"+nombre+"con dificultad "+ dificultad);
 		socket.leave(room);
 		io.in(room).emit("jugadorDesconectado", nombre);
-		if(dificultad=="facil"){
+		if(dificultad==1){
 			var pos = facil[buscarRoom(room)].jugadores.indexOf(nombre);
 			facil[buscarRoom(room)].jugadores.splice(pos, 1);
 		}
-		if(dificultad=="intermedio"){
-
+		if(dificultad==2){
+			var pos = intermedio[buscarRoom(room)].jugadores.indexOf(nombre);
+			intermedio[buscarRoom(room)].jugadores.splice(pos, 1);
 		}
-		if(dificultad=="dificil"){
-
+		if(dificultad==3){
+			var pos = dificil[buscarRoom(room)].jugadores.indexOf(nombre);
+			dificil[buscarRoom(room)].jugadores.splice(pos, 1);
 		}
 
 	});
-
+/**
+Evento cuando se solicita una impresion de toda la informacion de los rooms
+*/
+	socket.on("Imprime", function(mensaje){
+		imprimir();
+	});
 });
 
-
+/**
+Metodo para la busqueda de la posicion de una room dado su nombre
+*/
 function buscarRoom(nombre){
 	console.log("buscare"+nombre);
 	console.log("longitud facil"+facil.length);
@@ -113,6 +162,9 @@ function buscarRoom(nombre){
 			}
 	}
 
+/**
+Metodo para la busqueda de una room en espera para unir a un jugador
+*/
 function unirRoom(nombre, dificultad, socket){
 	console.log("unire jugador "+nombre+" con dificultad "+dificultad);
 	switch(dificultad){
@@ -130,9 +182,10 @@ function unirRoom(nombre, dificultad, socket){
 						facil[i].jugadores.push(nombre);
 						socket.join(facil[i].nombre);
 						io.in(facil[i].nombre).emit("comenzarPartida", "nomas");
-						setTimeout(function(){inicioPartida(facil[i].nombre)}, 30000);
+						setTimeout(function(){inicioPartida(facil[i].nombre, "facil")}, 30000);
+						facil[i].estado="ocupado";
 						if(facil[i].jugadores.length>7){
-							facil[i].estado="ocupado";
+							inicioPartida(facil[i].nombre, "facil");
 						}
 						return facil[i].nombre;
 					}
@@ -165,9 +218,10 @@ function unirRoom(nombre, dificultad, socket){
 						intermedio[i].jugadores.push(nombre);
 						socket.join(intermedio[i].nombre);
 						io.in(intermedio[i].nombre).emit("comenzarPartida", "nomas");
-						setTimeout(function(){inicioPartida(intermedio[i].nombre)}, 30000);
+						setTimeout(function(){inicioPartida(intermedio[i].nombre, "intermedio")}, 30000);
+						intermedio[i].estado="ocupado";
 						if(intermedio[i].jugadores.length>7){
-							intermedio[i].estado="ocupado";
+							inicioPartida(intermedio[i].nombre, "intermedio");
 						}
 						return intermedio[i].nombre;
 					}
@@ -200,9 +254,10 @@ function unirRoom(nombre, dificultad, socket){
 						dificil[i].jugadores.push(nombre);
 						socket.join(dificil[i].nombre);
 						io.in(dificil[i].nombre).emit("comenzarPartida", "nomas");
-						setTimeout(function(){inicioPartida(dificil[i].nombre)}, 30000);
+						setTimeout(function(){inicioPartida(dificil[i].nombre, "dificil")}, 30000);
+						dificil[i].estado="ocupado";
 						if(dificil[i].jugadores.length>7){
-							dificil[i].estado="ocupado";
+							inicioPartida(dificil[i].nombre, "dificil");
 						}
 						return dificil[i].nombre;
 					}
@@ -228,9 +283,10 @@ function unirRoom(nombre, dificultad, socket){
 						socket.join(intermedio[i].nombre);
 						intermedio[i].jugadores.push(nombre);
 						io.in(intermedio[i].nombre).emit("comenzarPartida", "nomas");
-						setTimeout(function(){inicioPartida(intermedio[i].nombre)}, 30000);
+						setTimeout(function(){inicioPartida(intermedio[i].nombre, "intermedio")}, 30000);
+						intermedio[i].estado="ocupado";
 						if(intermedio[i].jugadores.length>7){
-							intermedio[i].estado="ocupado";
+							inicioPartida(intermedio[i].nombre, "intermedio");
 						}
 						return intermedio[i].nombre;
 					}
@@ -273,6 +329,9 @@ function usuarioLibre(nombre){
 return true;
 }
 
+/**
+Metodo para verificar si un objeto esta en un array
+*/
 function contains(a, obj) {
     var i = a.length;
     while (i--) {
@@ -283,7 +342,11 @@ function contains(a, obj) {
     return false;
 }
 
+/**
+Metodo para imprimir toda la informacion de todas las rooms
+*/
 function imprimir(){
+	console.log("Imprimir");
 	for (var i = 0; i < facil.length; i++) {
 				if(facil[i]!=null){
 	console.log("*********************************************************************************");
@@ -335,7 +398,11 @@ function imprimir(){
 
 	console.log("-----------------------------------------------------------------------------------");
 }
-function inicioPartida(room){
+
+/**
+Metodo para el inicio de una partida
+*/
+function inicioPartida(room, dificultad){
 	console.log("Empieza partida"+room);
-	io.in(room).emit("inicioPartida", "nomas");
+	io.in(room).emit("inicioPartida", dificultad);
 }

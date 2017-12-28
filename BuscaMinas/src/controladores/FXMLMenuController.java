@@ -36,8 +36,14 @@ public class FXMLMenuController implements Initializable {
   @FXML
   Button btnOpciones;
   private int id;
+  
+
+
   @Override
   public void initialize(URL url, ResourceBundle rb) {
+    
+    
+    
     id=Context.getInstance().currentPlayer().getIdJugador();
     btnJugar.setOnAction(new EventHandler<ActionEvent>() {
       @Override
