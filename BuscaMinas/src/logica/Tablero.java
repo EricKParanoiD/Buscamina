@@ -112,25 +112,26 @@ public final class Tablero {
   public void limpiarVaciosAlrededor(ArrayList<Coordenadas> arrCoordenadas, int actualX, int actualY) {
 
     arrCoordenadas.add(new Coordenadas(actualX, actualY));
+    if(arrCasilla[actualX][actualY]==0){
     for (int k = 0; k < 3; k++) {
       for (int l = 0; l < 3; l++) {
         int corX = actualX + (k - 1);
         int corY = actualY + (l - 1);
-        System.out.println("Comprobando el " + corX + ", " + corY + "Con " + actualX + ", " + actualY);
+        if((corX >= 0 && corX < arrCasilla.length) && (corY >= 0 && corY < arrCasilla.length)){
         //Condicion que verifica que no se repase a si misma la casilla, y las oordenadas no se salgan del arreglo
-        if ((actualX != corX || actualY != corY) && (corX >= 0 && corX < arrCasilla.length) && (corY >= 0 && corY < arrCasilla.length) && !(arrCoordenadas.contains(new Coordenadas(corX, corY)))) {
-          System.out.println("Entrando a limpiar " + corX + "," + corY);
-          if (arrCasilla[corX][corY] == 0) {
-
+        if ((actualX != corX || actualY != corY) &&  !(arrCoordenadas.contains(new Coordenadas(corX, corY)))) {
+         
             limpiarVaciosAlrededor(arrCoordenadas, corX, corY);
           } else if (!arrCoordenadas.contains(new Coordenadas(corX, corY))) {
             arrCoordenadas.add(new Coordenadas(corX, corY));
           }
         }
+        }
       }
     }
 
   }
+  
   //Setters y Getters
 
   public int[][] getArrCasilla() {

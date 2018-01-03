@@ -112,7 +112,7 @@ public class TestTablero {
     tab.contarAlrededor(); //uso del metodo contarAlrededor
     tab.imprimirMatriz(); //Se imprime para verificar
     ArrayList<Coordenadas> arrLimpios=new ArrayList<>();
-    tab.limpiarVaciosAlrededor(arrLimpios,0, 5);
+    tab.limpiarVaciosAlrededor(arrLimpios,3, 3);
     for (int i = 0; i < arrLimpios.size(); i++) {
    System.out.println("X:"+arrLimpios.get(i).getCoordenadaX()+"Y:"+arrLimpios.get(i).getCoordenadaY());      
     }
